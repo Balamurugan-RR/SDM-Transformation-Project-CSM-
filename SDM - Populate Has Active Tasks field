@@ -1,0 +1,28 @@
+(function executeRule(current, previous /*null when async*/ ) {
+
+    var parent = current.parent.getRefRecord();
+    var hasActiveTasks = parent.has_active_tasks.toString();
+	
+	// New child task getting inserted
+    if ((current.operation() == 'insert') && hasActiveTasks == 'false') {
+        parent.setValue('has_active_tasks', true);
+    }
+
+	// A child task got inactive and there are no other active child tasks
+    if ((current.operation() == 'update') && current.active.changesTo(false) && hasActiveTasks == 'true') {
+        var tasks = new GlideRecord("task");
+        tasks.addEncodedQuery("parent=" + current.parent + "^active=true" + "^sys_class_name=issue^ORsys_class_name=sn_customerservice_task");
+        tasks.query();
+        if (tasks.getRowCount() == 0) {
+            parent.setValue('has_active_tasks', false);
+        }
+    }
+
+	// An inactive child task got active and there are no other active child tasks
+    if ((current.operation() == 'update') && current.active.changesTo(true) && hasActiveTasks == 'false') {
+        parent.setValue('has_active_tasks', true);
+    }
+
+    parent.update();
+
+})(current, previous);
