@@ -1,1 +1,35 @@
 Referance Qualifier : javascript:new x_att2_sdm_transfo.SDM_ClientCallableUtils().sdmAccountFilters("x_att2_sdm_transfo_project_additional_details")
+
+// Script include 
+
+var SDM_ClientCallableUtils = Class.create();
+SDM_ClientCallableUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+
+sdmAccountFilters: function(table) {
+        var filter = "u_customer_idISNOTEMPTY";
+        switch (table) {
+            case "x_att2_sdm_transfo_lmac":
+                {
+                    filter += "^u_gps_company_idIN" + gs.getProperty('x_att2_sdm_transfo.sdm.supported.account.companyID');
+                    break;
+                }
+            case "x_att2_sdm_transfo_pmac":
+                {
+                    filter += "^u_gps_company_idIN" + gs.getProperty('x_att2_sdm_transfo.sdm.supported.account.companyID');
+                    break;
+                }
+            case "x_att2_sdm_transfo_project":
+                {
+                    filter += "^u_gps_company_idIN" + gs.getProperty('x_att2_sdm_transfo.sdm.supported.account.companyID');
+                    break;
+                }
+            case "x_att2_sdm_transfo_project_additional_details":
+                {
+                    filter += "^u_customer_idIN" + gs.getProperty('x_att2_sdm_transfo.ProjectAccounts');
+                    break;
+                }
+        }
+        return filter;
+    },
+     type: 'SDM_ClientCallableUtils'
+});
