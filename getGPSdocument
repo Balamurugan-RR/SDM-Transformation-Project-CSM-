@@ -1,0 +1,49 @@
+//objettype, objectID, DocumentId is input
+(function execute(inputs, outputs) {
+
+  var payload = {};
+  payload.serviceName = inputs.serviceName;
+  payload.targetEnv = gs.getProperty('x_attm_bill_of_mat.gps.env');
+  payload.endpointServiceName = inputs.endpointServiceName;
+  payload.methodName =  inputs.methodName;
+  
+  var gpsUtil = new x_att2_ismacflow.ISMAC_GPS_UTIL();
+  var cred = gpsUtil.getGPSLoginCredentials();
+  var userName = cred.userName;
+  var password = cred.password;
+  
+  payload.authenticate = {}
+  payload.authenticate.userid = userName;
+  payload.authenticate.credential = {};
+  payload.authenticate.credential.password = password;
+  
+  payload.inputs = {};
+  payload.inputs.gsdlHttpHeaders = [{}];
+  payload.inputs.gsdlHttpHeaders[0].name = "X-ATT-OriginatorId";
+  payload.inputs.gsdlHttpHeaders[0].value = inputs.gpsEndUser;
+  
+  payload.inputs.gsdlUrlParameters = [];
+
+
+  var url = "objectid=" + inputs.objectid;
+  url += "&objecttype=" + inputs.objecttype;
+  url += "&documentid=" + inputs.documentid;
+  
+  payload.inputs.gsdlUrlParameters.push(urlParamObj("urlParameters", encodeURI(url)));
+  /*payload.inputs.gsdlUrlParameters.push(urlParamObj("documentId", inputs.documentid));
+  payload.inputs.gsdlUrlParameters.push(urlParamObj("routeOffer", "DEFAULT"));
+  payload.inputs.gsdlUrlParameters.push(urlParamObj("envContext", gs.getProperty('x_attm_bill_of_mat.gps.env')));*/
+  payload.inputs.gsdlUrlParameters.push(urlParamObj("dme2version", inputs.dme2version));
+  
+  
+  outputs.payload = JSON.stringify(payload);
+
+
+  function urlParamObj(name, value) {
+    var obj = {};
+    obj.name = name;
+    obj.value = value;
+    return obj;
+  }
+
+})(inputs, outputs);
