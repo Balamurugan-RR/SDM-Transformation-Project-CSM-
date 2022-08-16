@@ -1,0 +1,23 @@
+//case url
+var url = gs.getProperty("glide.servlet.uri")+ fd_data.trigger.current.sys_class_name+".do?sys_id="+fd_data.trigger.current.sys_id;
+return url;
+------------------
+//previous assignee
+var changedFields = fd_data.trigger.changed_fields;
+for(var i in changedFields){
+    if(changedFields[i].field_name == 'assigned_to')
+    {
+        return changedFields[i].previous_value.toString();
+    }
+}
+return '';
+----------------------
+//current assignee
+var changedFields = fd_data.trigger.changed_fields;
+for(var i in changedFields){
+    if(changedFields[i].field_name == 'assigned_to')
+    {
+        return changedFields[i].current_value.toString();
+    }
+}
+return '';
