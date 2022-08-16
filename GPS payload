@@ -1,0 +1,42 @@
+(function execute(inputs, outputs) {
+
+  var payload = {};
+  payload.serviceName = inputs.serviceName;
+  payload.targetEnv = gs.getProperty('x_attm_bill_of_mat.gps.env'); // might need to create our own endpoint 
+  payload.endpointServiceName = inputs.endpointServiceName;
+  payload.methodName =  inputs.methodName;
+
+
+  //Added by sk8880 on 21th Feb, 2022 for SFSTRY0001977
+  var gpsUser = gs.getProperty('x_att2_sdm_transfo.GPS_User');
+  
+  var gpsUtil = new x_att2_ismacflow.ISMAC_GPS_UTIL();
+  var cred = gpsUtil.getGPSLoginCredentials();
+  var userName = cred.userName;
+  var password = cred.password;
+
+  payload.authenticate = {};
+  payload.authenticate.userid = userName;
+  payload.authenticate.credential = {};
+  payload.authenticate.credential.password = password;
+
+  payload.inputs = {};
+  payload.inputs.gsdlHttpHeaders = [{}];
+  payload.inputs.gsdlHttpHeaders[0].name = "X-ATT-OriginatorId";
+  //payload.inputs.gsdlHttpHeaders[0].value = inputs.gpsEndUser;
+  payload.inputs.gsdlHttpHeaders[0].value = gpsUser; //Added by sk8880 on 21th Feb, 2022 for SFSTRY0001977
+  payload.inputs.gsdlUrlParameters = [];
+
+  payload.inputs.gsdlUrlParameters.push(urlParamObj("dme2version", inputs.dme2version));
+  payload.inputs.gsdlUrlParameters.push(urlParamObj("clientRequestNumber", inputs.clientRequestID));
+
+  outputs.payload = JSON.stringify(payload);
+
+  function urlParamObj(name, value) {
+    var obj = {};
+    obj.name = name;
+    obj.value = encodeURI(value);
+    return obj;
+  }
+
+})(inputs, outputs);
