@@ -1,0 +1,24 @@
+(function execute(inputs, outputs) {
+// ... code ...
+  var companyid = inputs.companyID; 
+  /*var account = new GlideRecord('customer_account');
+  account.addQuery('u_customer_id', customerid);
+  account.addActiveQuery();
+  account.query();
+  if(account.next()) {
+    var accountSysID = account.getUniqueValue();
+    outputs.accountguid = accountSysID ;*/
+  var property = gs.getProperty('x_att2_sdm_transfo.sdm.supported.account.companyID');
+    if(property){
+      
+       if(property.indexOf(companyid)>-1 ){
+      		outputs.accountexist = true ;
+    }
+    	else {
+     		 outputs.accountexist = false ;
+    }
+  }
+  		else{
+      outputs.accountexist = true ;
+  }
+})(inputs, outputs);
