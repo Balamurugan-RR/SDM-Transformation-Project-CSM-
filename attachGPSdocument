@@ -1,0 +1,19 @@
+(function execute(inputs, outputs) {
+  
+  //var base64File= inputs.base64Encodedcontent; //The huge base64Encoded string
+
+//var DecodedBytes = gs.base64Decode(base64File); //Decodes the base64Encoded Data in Bytes
+
+  var base64Encodedcontent = inputs.base64Encodedcontent;
+  var gpsAttachment = new GlideSysAttachment();
+  outputs['attachmentid'] = gpsAttachment.writeBase64(inputs.rec, inputs.fileName, inputs.contentType, base64Encodedcontent);
+  
+})(inputs, outputs);
+
+
+------------
+content field scroipt
+
+var content = JSON.parse(fd_data._32__get_individual_document_sdm.response_body).outputs.toString();
+return content;
+--------
