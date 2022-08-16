@@ -1,0 +1,45 @@
+(function execute(inputs, outputs) {
+  // Parses the the body from the response
+   var body = JSON.parse(inputs.responseBody);
+  
+  outputs.clientrequestnumber = get(body.outputs , 'clientRequestNumber');
+  outputs.allowcrupdate = get(body.outputs , 'allowCrUpdate');
+  outputs.customername = get(body.outputs , 'customerName');
+  outputs.gemscompanyid = get(body.outputs , 'gemsCompanyId');
+  outputs.customerid = get(body.outputs , 'customerId');
+  outputs.parentcompanyname = get(body.outputs , 'parentCompanyName');
+  outputs.parentcustomerid = get(body.outputs , 'parentCustomerId');
+  outputs.wfmproject = get(body.outputs , 'wfmProject');
+  outputs.lastcustmodificationdate = get(body.outputs , 'lastCustModificationDate');
+  outputs.crtype = get(body.outputs , 'cRType');
+  outputs.type = get(body.outputs , 'type');
+  outputs.referenceticketnumber = get(body.outputs , 'referenceTicketNumber');
+  outputs.clientcostcenter = get(body.outputs , 'clientCostCenter');
+  outputs.status = get(body.outputs , 'status');
+  outputs.statusreason = get(body.outputs , 'statusReason');
+  outputs.priority = get(body.outputs , 'priority');
+  outputs.estimateonly = get(body.outputs , 'estimateOnly');
+  outputs.relatedrequest = get(body.outputs , 'relatedRequest');
+  outputs.receiveddate = get(body.outputs , 'receivedDate');
+  outputs.reuqestedcompdate = get(body.outputs , 'reuqestedCompDate');
+  outputs.submitteddate = get(body.outputs , 'submittedDate');
+  outputs.actualcompletiondate = get(body.outputs , 'actualCompletionDate');
+  outputs.countofnotes = get(body.outputs , 'countofNotes');
+  outputs.countofdocs = get(body.outputs , 'countofDocs');
+  outputs.projectowner = get(body.outputs , 'projectOwner');
+  outputs.projectownerid = get(body.outputs , 'projectOwnerId');
+  outputs.createdby = get(body.outputs , 'createdBy');
+  outputs.datecreated = get(body.outputs , 'dateCreated');
+  outputs.modifiedby = get(body.outputs , 'modifiedBy');
+  outputs.datemodified = get(body.outputs , 'dateModified');
+  
+  
+  function get(obj, key) {
+    if(obj[key] == undefined) {
+      return ''; 
+    }
+    return obj[key];
+  }
+  
+  
+})(inputs, outputs);
